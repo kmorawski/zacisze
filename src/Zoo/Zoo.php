@@ -2,6 +2,8 @@
 
 namespace App\Zoo;
 
+use App\Enum\FoodType;
+
 class Zoo
 {
     /**
@@ -31,10 +33,10 @@ class Zoo
      * Feed animal.
      *
      * @param Animal $animal
-     * @param Food $food
+     * @param FoodType $food
      * @return void
      */
-    public function feedAnimal(Animal $animal, Food $food): void
+    public function feedAnimal(Animal $animal, FoodType $food): void
     {
         $animal->feed($food);
     }

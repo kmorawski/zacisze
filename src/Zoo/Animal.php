@@ -2,21 +2,18 @@
 
 namespace App\Zoo;
 
+use App\Enum\FoodType;
+use App\Zoo\Species\SpeciesInterface;
+
 class Animal
 {
-    private string $name = '';
+    private string $name = 'No name';
 
-    private string $species;
+    private SpeciesInterface $species;
 
-    private bool $isFurry;
-
-    private array $availableFood = [];
-
-    public function __construct(string $species, array $food, bool $isFurry = false)
+    public function __construct(SpeciesInterface $species)
     {
         $this->species = $species;
-        $this->isFurry = $isFurry;
-        $this->availableFood = $food;
     }
 
     /**
@@ -26,7 +23,7 @@ class Animal
      */
     public function __toString(): string
     {
-        return sprintf('%s %s', $this->species, $this->name);
+        return sprintf('%s %s', $this->species->speciesName(), $this->name);
     }
 
     /**
@@ -47,28 +44,25 @@ class Animal
      */
     public function care(): void
     {
-        if ($this->isFurry) {
+        if ($this->species->isFurry()) {
             echo 'Wyczesane';
-
-            return;
+        } else {
+            echo 'Nie mam futerka';
         }
-
-        echo 'Nie mam futerka';
     }
 
     /**
      * Feed.
      *
-     * @param Food $food
+     * @param FoodType $food
      * @return void
      */
-    public function feed(Food $food): void
+    public function feed(FoodType $food): void
     {
-        if (in_array($food->getKind(), $this->availableFood)) {
+        if ($this->species->validFeeds($food)) {
             echo 'Miam, miam...';
-            return;
+        } else {
+            echo 'Brrr! Nie jadam tego.';
         }
-
-        echo 'Brrr! Nie jadam tego.';
     }
 }
