@@ -4,8 +4,6 @@ namespace App\Zoo;
 
 class Zoo
 {
-    private array $animals;
-
     /**
      * Insert animal.
      *
@@ -16,7 +14,6 @@ class Zoo
     public function insertAnimal(Animal $animal, string $name): void
     {
         $animal->setName($name);
-        $this->animals[] = $animal;
     }
 
     /**

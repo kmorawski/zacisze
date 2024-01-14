@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Zoo;
+namespace App\Enum;
 
 enum FoodType: string
 {

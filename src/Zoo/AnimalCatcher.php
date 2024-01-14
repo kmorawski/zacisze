@@ -2,6 +2,8 @@
 
 namespace App\Zoo;
 
+use App\Enum\FoodType;
+
 class AnimalCatcher
 {
     public function createAnimal(string $animal): Animal

@@ -2,6 +2,8 @@
 
 namespace App\Zoo;
 
+use App\Enum\FoodType;
+
 class Plant implements Food
 {
     /**
