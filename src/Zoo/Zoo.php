@@ -2,44 +2,45 @@
 
 namespace App\Zoo;
 
-class Zoo
+use RuntimeException;
+
+class Zoo implements ZooInterface
 {
     private array $animals;
 
     /**
-     * Insert animal.
-     *
-     * @param Animal $animal
-     * @param string $name
-     * @return void
+     * @inheritDoc
      */
-    public function insertAnimal(Animal $animal, string $name): void
+    public function acquireAnimal(Animal $animal, string $name): void
     {
         $animal->setName($name);
+
         $this->animals[] = $animal;
     }
 
     /**
-     * Care animal.
-     *
-     * @param Animal $animal
-     * @return void
+     * @inheritDoc
      */
-    public function careAnimal(Animal $animal): void
+    public function findAnimalByName(string $animalName): Animal
     {
-        $animal->care();
+        /** @var Animal $animal */
+        foreach ($this->animals as $animal) {
+            if ($animal->getName() === $animalName) {
+                return $animal;
+            }
+        }
+
+        throw new RuntimeException('Animal not found.');
     }
 
     /**
-     * Feed animal.
-     *
-     * @param Animal $animal
-     * @param Food $food
-     * @return void
+     * @inheritDoc
      */
-    public function feedAnimal(Animal $animal, Food $food): void
+    public function animalList(): void
     {
-        $animal->feed($food);
+        /** @var Animal $animal */
+        foreach ($this->animals as $animal) {
+            echo $animal . PHP_EOL;
+        }
     }
-
 }

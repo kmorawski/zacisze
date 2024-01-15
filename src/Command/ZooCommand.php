@@ -2,10 +2,9 @@
 
 namespace App\Command;
 
-use App\Zoo\AnimalCatcher;
-use App\Zoo\Meat;
-use App\Zoo\Plant;
-use App\Zoo\Zoo;
+use App\Enum\FoodType;
+use App\Enum\Species;
+use App\Zoo\ZooManager;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -15,15 +14,12 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 #[AsCommand('app:zoo:start')]
 class ZooCommand extends Command
 {
-    private AnimalCatcher $animalCatcher;
+    private ZooManager $zooManager;
 
-    private Zoo $zoo;
-
-    public function __construct(AnimalCatcher $animalCatcher, Zoo $zoo)
+    public function __construct(ZooManager $zooManager)
     {
         parent::__construct();
-        $this->animalCatcher = $animalCatcher;
-        $this->zoo = $zoo;
+        $this->zooManager = $zooManager;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -32,22 +28,40 @@ class ZooCommand extends Command
 
         $io->text('Welcome in virtual ZOO!');
 
-        $lisek = $this->animalCatcher->createAnimal('lis');
-        $tygrysek = $this->animalCatcher->createAnimal('tygrys');
-        $slonik = $this->animalCatcher->createAnimal('slon');
+        // Umieszczanie zwierząt w ZOO
+        $lisek = $this->zooManager->animalToZoo(Species::Fox, 'Chytrusek');
+        $tygrysek = $this->zooManager->animalToZoo(Species::Tiger, 'Harry');
+        $slonik = $this->zooManager->animalToZoo(Species::Elephant, 'Bambi');
+        $kroliczek = $this->zooManager->animalToZoo(Species::Rabbit, 'Chycuś');
+        $nosorozec = $this->zooManager->animalToZoo(Species::Rhino, 'Twardziel');
 
-        $this->zoo->insertAnimal($lisek, 'Chytrusek');
-        $this->zoo->insertAnimal($tygrysek, 'Harry');
+        // Pokazuje listę zwierząt umieszczonych w ZOO
+        $this->zooManager->showAnimals();
 
-        $io->text($lisek);
-        $this->zoo->feedAnimal($lisek, new Plant());
-        $this->zoo->careAnimal($lisek);
+        // Karmienie zwierząt (io->text wyświetla efekt karmienia)
+        $io->text($lisek->feed(FoodType::Meat));
+        $io->text($tygrysek->feed(FoodType::Meat));
+        $io->text($slonik->feed(FoodType::Meat)); // slon nie je mięsa
+        $io->text($slonik->feed(FoodType::Plant)); // ale slon zje roślinki
+        $io->text($kroliczek->feed(FoodType::Plant));
+        $io->text($nosorozec->feed(FoodType::Plant));
 
-        $io->text($tygrysek);
-        $this->zoo->feedAnimal($tygrysek, new Meat());
-        $this->zoo->careAnimal($tygrysek);
+        // Pielęgnacja zwierząt (io->text wyświetla efekt pielęgnacji)
+        $io->text($lisek->care());
+        $io->text($tygrysek->care());
+        $io->text($slonik->care());
+        $io->text($kroliczek->care());
+        $io->text($nosorozec->care());
 
-        $this->zoo->careAnimal($slonik);
+        // Wypisanie gatunku i imienia zwierzątka
+        echo $lisek . PHP_EOL;
+
+        // Wyszukanie zwierzątka w ZOO (gdy nie znajdzie będzie wyrzucony wyjątek "Animal not found"
+        $animal = $this->zooManager->findAnimal('Chytrusek');
+        echo $animal . PHP_EOL;
+
+        // Status zwierzątka (na wolności czy w ZOO?)
+        $io->text($animal->describeFreedomStatus());
 
         return Command::SUCCESS;
     }
