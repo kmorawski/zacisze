@@ -1,9 +1,15 @@
-Rozwiązanie zadania 2
+## Lokalizacja kodu
+
+```
+https://github.com/kmorawski/zacisze
+```
+
+## Rozwiązanie zadania 2
 ```
 scripts/sql_script.sql
 ```
 
-Rozwiązanie zadania 1
+## Rozwiązanie zadania 1 ##
 
 System klas znajduję się w:
 ```
@@ -11,7 +17,7 @@ System klas znajduję się w:
 2. src/Zoo
 ```
 
-W katalogu
+## W katalogu ##
 ```
 src/Command
 ```
