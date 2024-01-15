@@ -5,16 +5,16 @@ namespace App\Zoo\Species;
 use App\Enum\FoodType;
 use App\Enum\Species;
 
-class Tiger implements SpeciesInterface
+class Rhino implements SpeciesInterface
 {
-    private const FEEDS = [FoodType::Meat];
+    private const FEEDS = [FoodType::Plant];
 
     /**
      * @inheritDoc
      */
     public function isFurry(): bool
     {
-        return true;
+        return false;
     }
 
     /**
@@ -22,7 +22,7 @@ class Tiger implements SpeciesInterface
      */
     public function speciesName(): string
     {
-        return Species::Tiger->name;
+        return Species::Rhino->name;
     }
 
     /**

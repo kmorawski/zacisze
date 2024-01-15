@@ -2,21 +2,32 @@
 
 namespace App\Zoo;
 
-use App\Enum\FoodType;
 use App\Enum\Species;
+use App\Zoo\Species\Elephant;
+use App\Zoo\Species\Fox;
+use App\Zoo\Species\Rabbit;
+use App\Zoo\Species\Rhino;
+use App\Zoo\Species\SnowLeopard;
 use App\Zoo\Species\Tiger;
 
-class AnimalCatcher
+class AnimalCatcher implements CatcherInterface
 {
-    public function createAnimal(string $animal): Animal
+    /**
+     * Create animal.
+     *
+     * @param Species $species
+     *
+     * @return Animal
+     */
+    public function catch(Species $species): Animal
     {
-        return match (strtolower($animal)) {
-            'tygrys' => new Animal(new Tiger()),
-            'slon' => new Animal(Species::Elephant, [FoodType::Plant]),
-            'nosorozec' => new Animal(Species::Rhino, [FoodType::Plant]),
-            'lis' => new Animal(Species::Fox, [FoodType::Meat], true),
-            'irbis_snieżny' => new Animal(Species::Leopard, [FoodType::Meat], true),
-            'krolik' => new Animal(Species::Rabbit, [FoodType::Plant], true),
+        return match ($species->name) {
+            Species::Tiger->name => new Animal(new Tiger()),
+            Species::Elephant->name => new Animal(new Elephant()),
+            Species::Rhino->name => new Animal(new Rhino()),
+            Species::Fox->name => new Animal(new Fox()),
+            Species::Leopard->name => new Animal(new SnowLeopard()),
+            Species::Rabbit->name => new Animal(new Rabbit()),
         };
     }
 }

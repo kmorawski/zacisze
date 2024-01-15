@@ -2,43 +2,45 @@
 
 namespace App\Zoo;
 
-use App\Enum\FoodType;
+use RuntimeException;
 
-class Zoo
+class Zoo implements ZooInterface
 {
+    private array $animals;
+
     /**
-     * Insert animal.
-     *
-     * @param Animal $animal
-     * @param string $name
-     * @return void
+     * @inheritDoc
      */
-    public function insertAnimal(Animal $animal, string $name): void
+    public function acquireAnimal(Animal $animal, string $name): void
     {
         $animal->setName($name);
+
+        $this->animals[] = $animal;
     }
 
     /**
-     * Care animal.
-     *
-     * @param Animal $animal
-     * @return void
+     * @inheritDoc
      */
-    public function careAnimal(Animal $animal): void
+    public function findAnimalByName(string $animalName): Animal
     {
-        $animal->care();
+        /** @var Animal $animal */
+        foreach ($this->animals as $animal) {
+            if ($animal->getName() === $animalName) {
+                return $animal;
+            }
+        }
+
+        throw new RuntimeException('Animal not found.');
     }
 
     /**
-     * Feed animal.
-     *
-     * @param Animal $animal
-     * @param FoodType $food
-     * @return void
+     * @inheritDoc
      */
-    public function feedAnimal(Animal $animal, FoodType $food): void
+    public function animalList(): void
     {
-        $animal->feed($food);
+        /** @var Animal $animal */
+        foreach ($this->animals as $animal) {
+            echo $animal . PHP_EOL;
+        }
     }
-
 }

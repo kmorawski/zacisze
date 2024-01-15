@@ -3,17 +3,22 @@
 namespace App\Zoo;
 
 use App\Enum\FoodType;
+use App\Enum\FreedomStatus;
 use App\Zoo\Species\SpeciesInterface;
 
 class Animal
 {
-    private string $name = 'No name';
+    private string $name;
 
     private SpeciesInterface $species;
+
+    private FreedomStatus $freedomStatus;
 
     public function __construct(SpeciesInterface $species)
     {
         $this->species = $species;
+        $this->name = '';
+        $this->freedomStatus = FreedomStatus::Free;
     }
 
     /**
@@ -23,13 +28,68 @@ class Animal
      */
     public function __toString(): string
     {
-        return sprintf('%s %s', $this->species->speciesName(), $this->name);
+        return $this->describe();
+    }
+
+    /**
+     * Care.
+     *
+     * @return string
+     */
+    public function care(): string
+    {
+        if ($this->species->isFurry()) {
+            return sprintf('%s został wyczesany.', $this->describe());
+        } else {
+            return sprintf('%s nie wymaga czesania.', $this->describe());
+        }
+    }
+
+    /**
+     * Feed.
+     *
+     * @param FoodType $food
+     *
+     * @return string
+     */
+    public function feed(FoodType $food): string
+    {
+        if (in_array($food, $this->species->feeds())) {
+            return sprintf('%s zjadł %s.', $this->describe(), $food->name);
+        } else {
+            return sprintf('%s nie jada %s.', $this->describe(), $food->name);
+        }
+    }
+
+    /**
+     * To zoo.
+     *
+     * @return void
+     */
+    public function toZoo(): void
+    {
+        $this->freedomStatus = FreedomStatus::InZoo;
+    }
+
+    /**
+     * Describe freedom status.
+     *
+     * @return string
+     */
+    public function describeFreedomStatus(): string
+    {
+        return sprintf(
+            '%s%s.',
+            $this->describe(),
+            $this->isInZoo() ? ' umieszczony w ZOO' : ' żyje na wolności'
+        );
     }
 
     /**
      * Set name.
      *
      * @param string $name
+     *
      * @return void
      */
     public function setName(string $name): void
@@ -38,31 +98,36 @@ class Animal
     }
 
     /**
-     * Care.
+     * Get name.
      *
-     * @return void
+     * @return string
      */
-    public function care(): void
+    public function getName(): string
     {
-        if ($this->species->isFurry()) {
-            echo 'Wyczesane';
-        } else {
-            echo 'Nie mam futerka';
-        }
+        return $this->name;
     }
 
     /**
-     * Feed.
+     * Describe.
      *
-     * @param FoodType $food
-     * @return void
+     * @return string
      */
-    public function feed(FoodType $food): void
+    private function describe(): string
     {
-        if ($this->species->validFeeds($food)) {
-            echo 'Miam, miam...';
-        } else {
-            echo 'Brrr! Nie jadam tego.';
-        }
+        return sprintf(
+            '%s%s%s',
+            $this->species->speciesName(),
+            $this->name === '' ? '' : ' ', $this->name
+        );
+    }
+
+    /**
+     * Is in zoo.
+     *
+     * @return bool
+     */
+    private function isInZoo(): bool
+    {
+        return $this->freedomStatus->name === FreedomStatus::InZoo->name;
     }
 }

@@ -2,8 +2,6 @@
 
 namespace App\Zoo\Species;
 
-use App\Enum\FoodType;
-
 interface SpeciesInterface
 {
     /**
@@ -14,13 +12,6 @@ interface SpeciesInterface
     public function isFurry(): bool;
 
     /**
-     * Feeds.
-     *
-     * @return array[FoodTypes]
-     */
-    public function feeds(): array;
-
-    /**
      * Species name.
      *
      * @return string
@@ -28,10 +19,9 @@ interface SpeciesInterface
     public function speciesName(): string;
 
     /**
-     * Valid feeds.
+     * Feeds.
      *
-     * @param FoodType $feed
-     * @return bool
+     * @return array
      */
-    public function validFeeds(FoodType $feed): bool;
+    public function feeds(): array;
 }

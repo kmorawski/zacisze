@@ -5,9 +5,9 @@ namespace App\Zoo\Species;
 use App\Enum\FoodType;
 use App\Enum\Species;
 
-class Tiger implements SpeciesInterface
+class Rabbit implements SpeciesInterface
 {
-    private const FEEDS = [FoodType::Meat];
+    private const FEEDS = [FoodType::Plant];
 
     /**
      * @inheritDoc
@@ -22,7 +22,7 @@ class Tiger implements SpeciesInterface
      */
     public function speciesName(): string
     {
-        return Species::Tiger->name;
+        return Species::Rabbit->name;
     }
 
     /**
