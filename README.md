@@ -11,6 +11,10 @@ System klas znajduję się w:
 2. src/Zoo
 ```
 
+W katalogu
+```
+src/Command
+```
 Została przygotowana komenda konsolowa:
 ```
 app:zoo:start
