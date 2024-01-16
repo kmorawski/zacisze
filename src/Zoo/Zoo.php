@@ -32,15 +32,4 @@ class Zoo implements ZooInterface
 
         throw new RuntimeException('Animal not found.');
     }
-
-    /**
-     * @inheritDoc
-     */
-    public function animalList(): void
-    {
-        /** @var Animal $animal */
-        foreach ($this->animals as $animal) {
-            echo $animal . PHP_EOL;
-        }
-    }
 }

@@ -62,16 +62,6 @@ class ZooManager
     }
 
     /**
-     * Show animals.
-     *
-     * @return void
-     */
-    public function showAnimals(): void
-    {
-        $this->zoo->animalList();
-    }
-
-    /**
      * Catch animal.
      *
      * @param Species $species

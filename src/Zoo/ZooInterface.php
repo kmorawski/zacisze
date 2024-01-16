@@ -22,11 +22,4 @@ interface ZooInterface
      * @return Animal
      */
     public function findAnimalByName(string $animalName): Animal;
-
-    /**
-     * Animal list.
-     *
-     * @return void
-     */
-    public function animalList(): void;
 }

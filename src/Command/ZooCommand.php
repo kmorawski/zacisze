@@ -35,9 +35,6 @@ class ZooCommand extends Command
         $kroliczek = $this->zooManager->animalToZoo(Species::Rabbit, 'Chycuś');
         $nosorozec = $this->zooManager->animalToZoo(Species::Rhino, 'Twardziel');
 
-        // Pokazuje listę zwierząt umieszczonych w ZOO
-        $this->zooManager->showAnimals();
-
         // Karmienie zwierząt (io->text wyświetla efekt karmienia)
         $io->text($lisek->feed(FoodType::Meat));
         $io->text($tygrysek->feed(FoodType::Meat));
